@@ -1,0 +1,323 @@
+[
+    {
+        "id": "bba462fb397b2fec",
+        "type": "inject",
+        "z": "afb19a68614b0474",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "50 03 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "ce5c8512cfdc6dfd"
+            ]
+        ]
+    },
+    {
+        "id": "ce5c8512cfdc6dfd",
+        "type": "moment",
+        "z": "afb19a68614b0474",
+        "name": "",
+        "topic": "",
+        "input": "",
+        "inputType": "msg",
+        "inTz": "America/Chicago",
+        "adjAmount": 0,
+        "adjType": "days",
+        "adjDir": "add",
+        "format": "YYYY-MM-DD",
+        "locale": "en_US",
+        "output": "backupDate",
+        "outputType": "msg",
+        "outTz": "America/Chicago",
+        "x": 320,
+        "y": 80,
+        "wires": [
+            [
+                "6912e33a166a1f13"
+            ]
+        ]
+    },
+    {
+        "id": "6912e33a166a1f13",
+        "type": "http request",
+        "z": "afb19a68614b0474",
+        "name": "Go to HE backup URL",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.10.35/hub/backup",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "credentials": {},
+        "x": 600,
+        "y": 80,
+        "wires": [
+            [
+                "a73d690e1b293ad7"
+            ]
+        ]
+    },
+    {
+        "id": "a73d690e1b293ad7",
+        "type": "html",
+        "z": "afb19a68614b0474",
+        "name": "Get Table Data",
+        "property": "payload",
+        "outproperty": "payload",
+        "tag": "td",
+        "ret": "html",
+        "as": "single",
+        "x": 920,
+        "y": 80,
+        "wires": [
+            [
+                "430183b7594304d2",
+                "1943643fe36638bd"
+            ]
+        ]
+    },
+    {
+        "id": "430183b7594304d2",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "Get backup time",
+        "func": "\nvar m = msg.payload;\n\n//Get length of attributes array\nvar l = m.length;\n\n//Loop through array to check if html element is backup date/time\nfor (x=0;x<l;x++){\n    var str = msg.payload[x]\n    if(str.substring(0,10)==msg.backupDate){\n     var backupTime = str.substring(11,22)\n     var hour = backupTime.substring(0,2)\n     var min = backupTime.substring(3,5)\n     var sec = backupTime.substring (6,8)\n     var pm = backupTime.substring(9,11)\n     backupTime = hour+\"_\"+min+\"_\"+sec+\"_\"+pm\n    }\n}\n\n//Delete unneeded message elements\nmsg.payload = null;\nmsg.backupTime = backupTime;\nmsg.backupDateTime = str;\n\n//Copy and send the message\n//msg.payload = m; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 172.66668701171875,
+        "y": 166.666748046875,
+        "wires": [
+            [
+                "95a06c760b6b41f7",
+                "86f5f7980ab0583f"
+            ]
+        ]
+    },
+    {
+        "id": "95a06c760b6b41f7",
+        "type": "hubitat device",
+        "z": "afb19a68614b0474",
+        "deviceLabel": "Hub Information",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "889",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 392.6665954589844,
+        "y": 165.6669921875,
+        "wires": [
+            [
+                "c606deca4ed891d2"
+            ]
+        ]
+    },
+    {
+        "id": "c606deca4ed891d2",
+        "type": "change",
+        "z": "afb19a68614b0474",
+        "name": "Creating url and filename",
+        "rules": [
+            {
+                "t": "set",
+                "p": "hubName",
+                "pt": "msg",
+                "to": "\t\t$replace(\t  payload.locationName.currentValue,\t   \" \",\t   \"_\"\t)\t",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "firmwareVersion",
+                "pt": "msg",
+                "to": "payload.firmwareVersionString.currentValue",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "localIP",
+                "pt": "msg",
+                "to": "payload.localIP.currentValue",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "filePath",
+                "pt": "msg",
+                "to": "/home/pi/hubbackups/MainHub/",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "fileSuffix",
+                "pt": "msg",
+                "to": ".lzf",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 616.6666870117188,
+        "y": 165.666748046875,
+        "wires": [
+            [
+                "4269cedb78c30599"
+            ]
+        ]
+    },
+    {
+        "id": "4269cedb78c30599",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "Set URL",
+        "func": "//Set URL to download backup\nmsg.url = \"http://\"+msg.localIP+\"/hub/backupDB?fileName=\"+msg.backupDate+\"~\"+msg.firmwareVersion+\".lzf\";\n\n//Set filename for saving download\nvar filename =msg.hubName+\"_\"+msg.backupDate+\"_\"+msg.backupTime+\"~\"+msg.firmwareVersion+msg.fileSuffix;\nmsg.filename = msg.filePath+filename\n\n//Set session cookies for the response header\n//var cookies = msg.responseCookies;\nmsg.headers = {\n  //  Cookie : \"HUBSESSION=\" + cookies.HUBSESSION.value\n    \n};\n    \nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 843.6666870117188,
+        "y": 165.666748046875,
+        "wires": [
+            [
+                "f0e9084606b52325"
+            ]
+        ]
+    },
+    {
+        "id": "f0e9084606b52325",
+        "type": "http request",
+        "z": "afb19a68614b0474",
+        "name": "Download Backup",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1041.6666870117188,
+        "y": 167,
+        "wires": [
+            [
+                "551e4aa4c623053a"
+            ]
+        ]
+    },
+    {
+        "id": "8cd8fa0cda4e7b13",
+        "type": "file",
+        "z": "afb19a68614b0474",
+        "name": "Save Backup File",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1590,
+        "y": 140,
+        "wires": [
+            [
+                "d4694dbe984d9497",
+                "08fc31c1cd23385f"
+            ]
+        ]
+    },
+    {
+        "id": "551e4aa4c623053a",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "One name per day of week for cloud",
+        "func": "var d = new Date();\nvar day = new Array(7);\nday[0]=  \"Sun\";\nday[1] = \"Mon\";\nday[2] = \"Tue\";\nday[3] = \"Wed\";\nday[4] = \"Thu\";\nday[5] = \"Fri\";\nday[6] = \"Sat\";\n\nmsg.filename=msg.filePath+msg.hubName + (day[d.getDay()]);\nmsg.short=msg.hubName + \"/\" + msg.hubName + (day[d.getDay()]);\nmsg.LocalFilename=msg.hubName + (day[d.getDay()]);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1310,
+        "y": 120,
+        "wires": [
+            [
+                "8cd8fa0cda4e7b13"
+            ]
+        ]
+    },
+    {
+        "id": "d03f16c1c6b14381",
+        "type": "amazon s3 out",
+        "z": "afb19a68614b0474",
+        "aws": "",
+        "bucket": "bradmontierth",
+        "filename": "",
+        "localFilename": "",
+        "region": "us-west-2",
+        "name": "",
+        "x": 1930,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "08fc31c1cd23385f",
+        "type": "change",
+        "z": "afb19a68614b0474",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "short",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1670,
+        "y": 60,
+        "wires": [
+            [
+                "d03f16c1c6b14381"
+            ]
+        ]
+    },
+    {
+        "id": "337d383ca70ad576",
+        "type": "hubitat config",
+        "name": "Hubitat",
+        "usetls": false,
+        "host": "192.168.10.77",
+        "port": "80",
+        "appId": "1246",
+        "nodeRedServer": "http://192.168.10.92:1880",
+        "webhookPath": "/hubitat/webhook",
+        "autoRefresh": true,
+        "useWebsocket": false,
+        "colorEnabled": false,
+        "color": "#ace043"
+    }
+]
