@@ -1,0 +1,354 @@
+[
+    {
+        "id": "e5a4e03ddd1a2fb8",
+        "type": "change",
+        "z": "afb19a68614b0474",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "AWSName",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 1660,
+        "wires": [
+            [
+                "08f56a04a0ca6943"
+            ]
+        ]
+    },
+    {
+        "id": "08f56a04a0ca6943",
+        "type": "amazon s3 out",
+        "z": "afb19a68614b0474",
+        "aws": "",
+        "bucket": "bradmontierth",
+        "filename": "",
+        "localFilename": "",
+        "region": "us-west-2",
+        "name": "",
+        "x": 1730,
+        "y": 1660,
+        "wires": []
+    },
+    {
+        "id": "c03580bfae052a8b",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "ConfigURL",
+        "func": "//Set URL to download backup\nmsg.url = \"http://192.168.30.234/cfg.json\"\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1720,
+        "wires": [
+            [
+                "6ddbd9a10111e9a8"
+            ]
+        ]
+    },
+    {
+        "id": "6ddbd9a10111e9a8",
+        "type": "http request",
+        "z": "afb19a68614b0474",
+        "name": "Download Backup",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "credentials": {},
+        "x": 638,
+        "y": 1721.333251953125,
+        "wires": [
+            [
+                "2e5e5b89c83a7490"
+            ]
+        ]
+    },
+    {
+        "id": "c36df330c81bafce",
+        "type": "file",
+        "z": "afb19a68614b0474",
+        "name": "Save Backup File",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1250,
+        "y": 1680,
+        "wires": [
+            [
+                "e5a4e03ddd1a2fb8"
+            ]
+        ]
+    },
+    {
+        "id": "2e5e5b89c83a7490",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "One name per day of week for cloud",
+        "func": "if (msg.statusCode === \"EHOSTUNREACH\") {\n    return null;\n}\n\nvar d = new Date();\nvar day = new Array(7);\nday[0] = \"Sun\";\nday[1] = \"Mon\";\nday[2] = \"Tue\";\nday[3] = \"Wed\";\nday[4] = \"Thu\";\nday[5] = \"Fri\";\nday[6] = \"Sat\";\nmsg.filePath=\"/home/pi/hubbackups/WLED/\";\nmsg.filename=msg.filePath+\"OutsideLEDConfig\" + (day[d.getDay()]) +\".json\";\nmsg.localFileName=msg.filename\n\nmsg.AWSName=\"WLED/\"+\"OutsideLEDConfig\" + (day[d.getDay()]) +\".json\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 1720,
+        "wires": [
+            [
+                "c36df330c81bafce"
+            ]
+        ]
+    },
+    {
+        "id": "8d1eb5d88dcfb1c1",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "ConfigURL",
+        "func": "//Set URL to download backup\nmsg.url = \"http://192.168.30.234/presets.json\"\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1780,
+        "wires": [
+            [
+                "7d88979b75941b2c"
+            ]
+        ]
+    },
+    {
+        "id": "7d88979b75941b2c",
+        "type": "http request",
+        "z": "afb19a68614b0474",
+        "name": "Download Backup",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 630,
+        "y": 1780,
+        "wires": [
+            [
+                "a9c2bbdf8df037ca"
+            ]
+        ]
+    },
+    {
+        "id": "a9c2bbdf8df037ca",
+        "type": "function",
+        "z": "afb19a68614b0474",
+        "name": "One name per day of week for cloud",
+        "func": "if (msg.statusCode === \"EHOSTUNREACH\") {\n    return null;\n}\n\nvar d = new Date();\nvar day = new Array(7);\nday[0] = \"Sun\";\nday[1] = \"Mon\";\nday[2] = \"Tue\";\nday[3] = \"Wed\";\nday[4] = \"Thu\";\nday[5] = \"Fri\";\nday[6] = \"Sat\";\nmsg.filePath=\"/home/pi/hubbackups/WLED/\";\nmsg.filename=msg.filePath+\"OutsideLEDPresets\" + (day[d.getDay()]) +\".json\";\nmsg.localFileName=msg.filename\n\nmsg.AWSName=\"WLED/\"+\"OutsideLEDPresets\" + (day[d.getDay()]) +\".json\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 922,
+        "y": 1778.666748046875,
+        "wires": [
+            [
+                "6450e8162aabcf0b"
+            ]
+        ]
+    },
+    {
+        "id": "6450e8162aabcf0b",
+        "type": "file",
+        "z": "afb19a68614b0474",
+        "name": "Save Backup File",
+        "filename": "",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1250,
+        "y": 1800,
+        "wires": [
+            [
+                "a0ff114f7f2a1892"
+            ]
+        ]
+    },
+    {
+        "id": "f089992f8734023d",
+        "type": "amazon s3 out",
+        "z": "afb19a68614b0474",
+        "aws": "",
+        "bucket": "bradmontierth",
+        "filename": "",
+        "localFilename": "",
+        "region": "us-west-2",
+        "name": "",
+        "x": 1710,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "a0ff114f7f2a1892",
+        "type": "change",
+        "z": "afb19a68614b0474",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "filename",
+                "pt": "msg",
+                "to": "AWSName",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 1800,
+        "wires": [
+            [
+                "f089992f8734023d"
+            ]
+        ]
+    },
+    {
+        "id": "437898c7bf7401c5",
+        "type": "time-inject",
+        "z": "afb19a68614b0474",
+        "name": "",
+        "nameInt": "⏲ sunset end↷ = timestamp",
+        "positionConfig": "31826811.22a458",
+        "props": [
+            {
+                "p": "",
+                "pt": "msgPayload",
+                "v": "",
+                "vt": "date",
+                "o": "",
+                "oT": "none",
+                "oM": "60000",
+                "f": 0,
+                "fS": 0,
+                "fT": "UNIX timestamp (ms)",
+                "fI": "0",
+                "next": true,
+                "days": "*",
+                "months": "*",
+                "onlyOddDays": false,
+                "onlyEvenDays": false,
+                "onlyOddWeeks": false,
+                "onlyEvenWeeks": false
+            },
+            {
+                "p": "",
+                "pt": "msgTopic",
+                "v": "",
+                "vt": "str",
+                "o": "",
+                "oT": "none",
+                "oM": "60000",
+                "f": 0,
+                "fS": 0,
+                "fT": "UNIX timestamp (ms)",
+                "fI": "0",
+                "next": false,
+                "days": "*",
+                "months": "*",
+                "onlyOddDays": false,
+                "onlyEvenDays": false,
+                "onlyOddWeeks": false,
+                "onlyEvenWeeks": false
+            }
+        ],
+        "injectTypeSelect": "time",
+        "intervalCount": 1,
+        "intervalCountType": "num",
+        "intervalCountMultiplier": 60000,
+        "time": "sunsetEnd",
+        "timeType": "pdsTime",
+        "offset": "15",
+        "offsetType": "num",
+        "offsetMultiplier": 60000,
+        "timeEnd": "",
+        "timeEndType": "entered",
+        "timeEndOffset": 0,
+        "timeEndOffsetType": "none",
+        "timeEndOffsetMultiplier": 60000,
+        "timeDays": "*",
+        "timeOnlyOddDays": false,
+        "timeOnlyEvenDays": false,
+        "timeOnlyOddWeeks": false,
+        "timeOnlyEvenWeeks": false,
+        "timeMonths": "*",
+        "timedatestart": "",
+        "timedateend": "",
+        "property": "",
+        "propertyType": "none",
+        "propertyCompare": "true",
+        "propertyThreshold": "",
+        "propertyThresholdType": "num",
+        "timeAlt": "",
+        "timeAltType": "entered",
+        "timeAltDays": "*",
+        "timeAltOnlyOddDays": false,
+        "timeAltOnlyEvenDays": false,
+        "timeAltOnlyOddWeeks": false,
+        "timeAltOnlyEvenWeeks": false,
+        "timeAltMonths": "*",
+        "timeAltOffset": 0,
+        "timeAltOffsetType": "none",
+        "timeAltOffsetMultiplier": 60000,
+        "once": false,
+        "onceDelay": 0.1,
+        "recalcTime": 2,
+        "x": 200,
+        "y": 1760,
+        "wires": [
+            [
+                "c03580bfae052a8b",
+                "8d1eb5d88dcfb1c1"
+            ]
+        ]
+    },
+    {
+        "id": "31826811.22a458",
+        "type": "position-config",
+        "name": "Home Location",
+        "isValide": "true",
+        "longitude": "0",
+        "latitude": "0",
+        "angleType": "deg",
+        "timeZoneOffset": "99",
+        "timeZoneDST": "0",
+        "stateTimeFormat": "3",
+        "stateDateFormat": "12",
+        "contextStore": ""
+    }
+]
