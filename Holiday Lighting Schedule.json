@@ -1,0 +1,334 @@
+[
+    {
+        "id": "11b04336060f76a2",
+        "type": "inject",
+        "z": "885562c94f05e870",
+        "name": "Daily",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 12 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "45f22f840d72a62c"
+            ]
+        ]
+    },
+    {
+        "id": "45f22f840d72a62c",
+        "type": "function",
+        "z": "885562c94f05e870",
+        "name": "Get Holidays",
+        "func": "// Code added here will be run once\n// whenever the node is started.\nvar hd = new dateHolidays()\n\nhd = new dateHolidays('US')\n\nconst today = new Date();\nconst year = today.getFullYear();\n\nmsg.year = year\nmsg.payload=hd.getHolidays(year);\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "dateHolidays",
+                "module": "date-holidays"
+            }
+        ],
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "e9caa9673a2ade02"
+            ]
+        ]
+    },
+    {
+        "id": "e9caa9673a2ade02",
+        "type": "function",
+        "z": "885562c94f05e870",
+        "name": "save to global.Holidays",
+        "func": "var a = global.get('Holidays');\nvar b = (a === undefined) ? {} : a;\n\n// Define holiday offsets\nconst holidayOffsets = {\n    'Easter Sunday': -2,\n    'Halloween': -30\n};\n\nmsg.payload.forEach(item => {\n    var disp = item.name;\n    const datetime = new Date(item.date);\n    let date = datetime.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });\n\n    // Calculate start date based on holiday offset\n    const offset = holidayOffsets[disp] || 0;\n    const startDate = new Date(datetime);\n    startDate.setDate(startDate.getDate() + offset);\n    let startDateFormat = startDate.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });\n\n    const list = {\n        [disp]: {\n            startDate: startDateFormat,\n            endDate: date\n        },\n    };\n    const updatedlist = {\n        ...b,\n        ...list\n    };\n    global.set(\"Holidays\", updatedlist);\n    b = updatedlist;\n});\n\nmsg.payload = b;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 80,
+        "wires": [
+            [
+                "d536d09c927040dc"
+            ]
+        ]
+    },
+    {
+        "id": "d536d09c927040dc",
+        "type": "function",
+        "z": "885562c94f05e870",
+        "name": "Relative Start Dates",
+        "func": "var a = global.get(\"Holidays\");\nlet dayAfterThanksgivingStartDate = null;\n\n// Find the start date of Day after Thanksgiving Day\nfor (let i in a) {\n    if (i === \"Day after Thanksgiving Day\") {\n        dayAfterThanksgivingStartDate = a[i].startDate;\n    }\n}\n\n// Function to update the start date of Christmas Day\nfunction updateChristmasDayStartDate(holidays, dayAfterThanksgivingStartDate) {\n    if (dayAfterThanksgivingStartDate) {\n        holidays['Christmas Day'].startDate = dayAfterThanksgivingStartDate;\n    }\n}\n\n// Update the start date of Christmas Day\nupdateChristmasDayStartDate(a, dayAfterThanksgivingStartDate);\n\nglobal.set(\"Holidays\", a);\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0a96e5f6458cc3b4",
+        "type": "time-inject",
+        "z": "885562c94f05e870",
+        "name": "",
+        "nameInt": "⏲ sunset start = timestamp↷",
+        "positionConfig": "31826811.22a458",
+        "props": [
+            {
+                "p": "",
+                "pt": "msgPayload",
+                "v": "",
+                "vt": "date",
+                "o": "1",
+                "oT": "num",
+                "oM": "60000",
+                "f": 0,
+                "fS": 0,
+                "fT": "UNIX timestamp (ms)",
+                "fI": "0",
+                "next": true,
+                "days": "*",
+                "months": "*",
+                "onlyOddDays": false,
+                "onlyEvenDays": false,
+                "onlyOddWeeks": false,
+                "onlyEvenWeeks": false
+            },
+            {
+                "p": "",
+                "pt": "msgTopic",
+                "v": "",
+                "vt": "str",
+                "o": "1",
+                "oT": "none",
+                "oM": "60000",
+                "f": 0,
+                "fS": 0,
+                "fT": "UNIX timestamp (ms)",
+                "fI": "0",
+                "next": false,
+                "days": "*",
+                "months": "*",
+                "onlyOddDays": false,
+                "onlyEvenDays": false,
+                "onlyOddWeeks": false,
+                "onlyEvenWeeks": false
+            }
+        ],
+        "injectTypeSelect": "time",
+        "intervalCount": 1,
+        "intervalCountType": "num",
+        "intervalCountMultiplier": 60000,
+        "time": "sunsetStart",
+        "timeType": "pdsTime",
+        "offset": 0,
+        "offsetType": "none",
+        "offsetMultiplier": 60000,
+        "timeEnd": "",
+        "timeEndType": "entered",
+        "timeEndOffset": 0,
+        "timeEndOffsetType": "num",
+        "timeEndOffsetMultiplier": 60000,
+        "timeDays": "*",
+        "timeOnlyOddDays": false,
+        "timeOnlyEvenDays": false,
+        "timeOnlyOddWeeks": false,
+        "timeOnlyEvenWeeks": false,
+        "timeMonths": "*",
+        "timedatestart": "",
+        "timedateend": "",
+        "property": "",
+        "propertyType": "none",
+        "propertyCompare": "true",
+        "propertyThreshold": "",
+        "propertyThresholdType": "num",
+        "timeAlt": "",
+        "timeAltType": "entered",
+        "timeAltDays": "*",
+        "timeAltOnlyOddDays": false,
+        "timeAltOnlyEvenDays": false,
+        "timeAltOnlyOddWeeks": false,
+        "timeAltOnlyEvenWeeks": false,
+        "timeAltMonths": "*",
+        "timeAltOffset": 0,
+        "timeAltOffsetType": "num",
+        "timeAltOffsetMultiplier": 60000,
+        "once": false,
+        "onceDelay": "",
+        "recalcTime": "",
+        "x": 260,
+        "y": 280,
+        "wires": [
+            [
+                "aa95f522cc6845e8"
+            ]
+        ]
+    },
+    {
+        "id": "aa95f522cc6845e8",
+        "type": "function",
+        "z": "885562c94f05e870",
+        "name": "Holidays",
+        "func": "let Holidays = global.get(\"Holidays\");\nlet currentDate = new Date();\ncurrentDate.setHours(0, 0, 0, 0); // Set the hours, minutes, seconds, and milliseconds to 0\n\nfunction getAdjustedDate(dateString) {\n    const dateComponents = dateString.split('-');\n    const year = parseInt(dateComponents[0], 10);\n    const month = parseInt(dateComponents[1], 10) - 1; // Month is zero-based\n    const day = parseInt(dateComponents[2], 10);\n\n    // Create a new date object using the local time zone\n    const adjustedDate = new Date(year, month, day, 0, 0, 0, 0);\n\n    return adjustedDate;\n}\n\n\nlet matchName;\nfor (let holidayName in Holidays) {\n    let startDate = getAdjustedDate(Holidays[holidayName].startDate);\n    let endDate = getAdjustedDate(Holidays[holidayName].endDate);\n    node.send(endDate);\n    if (currentDate >= startDate && currentDate <= endDate) {\n        matchName = holidayName;\n        break;\n    }\n}\n\nif (matchName) {\n    msg.payload = matchName;\n    msg.date = currentDate.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });\n} else {\n    msg.payload = \"NotHoliday\";\n    msg.date = currentDate.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' });\n    msg.currentDate = currentDate\n}\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 280,
+        "wires": [
+            [
+                "344af9c3b1fe9117"
+            ]
+        ]
+    },
+    {
+        "id": "344af9c3b1fe9117",
+        "type": "switch",
+        "z": "885562c94f05e870",
+        "name": "Holiday Switch",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Martin Luther King Jr. Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Washington's Birthday",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Valentine's Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "St. Patrick's Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Easter Sunday",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Memorial Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Veterans Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Halloween",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Thanksgiving Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Day after Thanksgiving Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Christmas Eve",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Christmas Day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "New Year's Eve",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "NotHoliday",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 15,
+        "x": 720,
+        "y": 260,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "502316b7473b9455",
+        "type": "comment",
+        "z": "885562c94f05e870",
+        "name": "Build Holiday Array",
+        "info": "Build with start and end dates allowing for holiday lights days before the actual holiday. \nRelative start dates looks at the day after thanksgiving for reference and applies that to the start date for christmas day",
+        "x": 210,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "31826811.22a458",
+        "type": "position-config",
+        "name": "Home Location",
+        "isValide": "true",
+        "angleType": "deg",
+        "timeZoneOffset": "99",
+        "timeZoneDST": "0",
+        "stateTimeFormat": "3",
+        "stateDateFormat": "12",
+        "contextStore": ""
+    }
+]
