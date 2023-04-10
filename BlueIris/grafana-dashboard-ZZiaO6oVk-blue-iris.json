@@ -1,0 +1,876 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": true,
+    "canEdit": true,
+    "canAdmin": true,
+    "canStar": true,
+    "canDelete": true,
+    "slug": "blue-iris",
+    "url": "/d/ZZiaO6oVk/blue-iris",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2023-01-28T09:10:55-07:00",
+    "updated": "2023-01-28T14:59:10-07:00",
+    "updatedBy": "admin",
+    "createdBy": "admin",
+    "version": 4,
+    "hasAcl": false,
+    "isFolder": false,
+    "folderId": 0,
+    "folderUid": "",
+    "folderTitle": "General",
+    "folderUrl": "",
+    "provisioned": false,
+    "provisionedExternalId": "",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      },
+      "organization": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      }
+    },
+    "publicDashboardAccessToken": "",
+    "publicDashboardUid": "",
+    "publicDashboardEnabled": false
+  },
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 70,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  unix_timestamp(created) AS \"time\",\r\n  cast(StatNBR as decimal(18,2)) as 'CPU'\r\nFROM DeviceMonitoring\r\nWHERE\r\n  $__timeFilter(created)\r\n  and\r\n  DeviceNM='Blue Iris'\r\n  and\r\n  StatNM='CPU'\r\nORDER BY created",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "CPU Usage",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 7,
+          "x": 6,
+          "y": 0
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  unix_timestamp(created) AS \"time\",\r\n  cast(StatNBR as decimal(18,2)) as 'Percent Used'\r\nFROM DeviceMonitoring\r\nWHERE\r\n  $__timeFilter(created)\r\n  and\r\n  DeviceNM='Blue Iris'\r\n  and\r\n  StatNM='RAM'\r\nORDER BY created",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "RAM Usage",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 13,
+          "y": 0
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  unix_timestamp(created) AS \"time\",\r\n  cast(StatNBR as decimal(18,2)) as 'GPU'\r\nFROM DeviceMonitoring\r\nWHERE\r\n  $__timeFilter(created)\r\n  and\r\n  DeviceNM='Blue Iris'\r\n  and\r\n  StatNM='GPU'\r\nORDER BY created",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "GPU Usage",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 5,
+          "x": 19,
+          "y": 0
+        },
+        "id": 9,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  unix_timestamp(created) AS \"time\",\r\n  cast(StatNBR as decimal(18,2)) as 'Disk Used'\r\nFROM DeviceMonitoring\r\nWHERE\r\n  $__timeFilter(created)\r\n  and\r\n  DeviceNM='Blue Iris'\r\n  and\r\n  StatNM='Disk'\r\nORDER BY created",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Disk Space",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto",
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Total Events"
+              },
+              "properties": [
+                {
+                  "id": "unit"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Object"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 172
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Percent Found"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 125
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 19,
+          "w": 7,
+          "x": 0,
+          "y": 6
+        },
+        "id": 4,
+        "options": {
+          "footer": {
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": true,
+              "displayName": "Total Events"
+            }
+          ]
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "Select \r\nUnix_timestamp(DateDTS) as \"time\"\r\n,Object\r\n,sum(case when EventType='Object found' then 1 else 0 end)/sum(case when EventType='Motion' then 1 else 0 end) as \"Percent Found\"\r\n,sum(case when EventType='Motion' then 1 else 0 end) as \"Total Events\"\r\nFROM BlueIrisMetrics\r\nWHERE $__timeFilter(DateDTS)\r\nAND \r\nEventType in ('Motion','Cancelled','Object found')\r\nGROUP BY Object\r\nOrder by DateDTS\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "AI Percent Match ",
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "time": true
+              },
+              "indexByName": {},
+              "renameByName": {}
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 17,
+          "x": 7,
+          "y": 6
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "Select \r\nunix_timestamp(DateDTS) as \"time\"\r\n,case when EventType='Cancelled' then ProcessTimeMS/1000 end as \"Cancelled\"\r\n,case when EventType='Object found' then ProcessTimeMS/1000 end as \"Object Found\"\r\n\r\nFROM BlueIrisMetrics\r\nWHERE $__timeFilter(DateDTS)",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "AI Process Time",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "scaleDistribution": {
+                "type": "linear"
+              }
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 17,
+          "x": 7,
+          "y": 15
+        },
+        "id": 3,
+        "options": {
+          "calculate": false,
+          "cellGap": 0,
+          "color": {
+            "exponent": 0.5,
+            "fill": "dark-orange",
+            "mode": "scheme",
+            "reverse": false,
+            "scale": "exponential",
+            "scheme": "RdBu",
+            "steps": 64
+          },
+          "exemplars": {
+            "color": "rgba(255,0,255,0.7)"
+          },
+          "filterValues": {
+            "le": 1e-09
+          },
+          "legend": {
+            "show": true
+          },
+          "rowsFrame": {
+            "layout": "auto"
+          },
+          "tooltip": {
+            "show": true,
+            "yHistogram": false
+          },
+          "yAxis": {
+            "axisPlacement": "left",
+            "reverse": false,
+            "unit": "percent"
+          }
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "time_series",
+            "rawQuery": true,
+            "rawSql": "Select \r\nunix_timestamp(DateDTS) as \"time\"\r\n,Object\r\n,PercentMatch as \"\"\r\n\r\nFROM BlueIrisMetrics\r\nWHERE $__timeFilter(DateDTS)\r\nAND \r\nEventType='Object found'\r\nOrder by DateDTS\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "AI Percent Match ",
+        "type": "heatmap"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ZxF7RtM4z"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 11,
+          "w": 24,
+          "x": 0,
+          "y": 25
+        },
+        "id": 10,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "9.3.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "mysql",
+              "uid": "ZxF7RtM4z"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "SELECT\r\n  unix_timestamp(created) AS \"time\",\r\n  cast(StatNBR as decimal(18,2)) as 'CPU'\r\nFROM DeviceMonitoring\r\nWHERE\r\n  $__timeFilter(created)\r\n  and\r\n  DeviceNM='Blue Iris'\r\n  and\r\n  StatNM='CPU'\r\nORDER BY created",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "CPU Usage",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": false,
+    "schemaVersion": 37,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "Blue Iris",
+    "uid": "ZZiaO6oVk",
+    "version": 4,
+    "weekStart": ""
+  }
+}
