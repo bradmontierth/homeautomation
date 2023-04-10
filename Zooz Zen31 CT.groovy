@@ -10,7 +10,7 @@ import hubitat.helper.ColorUtils
 import groovy.transform.Field
 
 metadata {
-    definition (name: "Zooz Zen31 LED Controller ChatGPT", namespace: "djdizzyd", author: "Bryan Copeland", importUrl: "https://raw.githubusercontent.com/djdizzyd/hubitat/master/Drivers/zooz/zen31-led-controller.groovy" ) {
+    definition (name: "Zooz Zen31 LED Controller CT Only", namespace: "djdizzyd", author: "Bryan Copeland", importUrl: "https://https://raw.githubusercontent.com/bradmontierth/homeautomation/main/Zooz%20Zen31%20CT.groovy" ) {
         capability "Actuator"
         capability "ChangeLevel"
         capability "ColorMode"
