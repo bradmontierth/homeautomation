@@ -1,0 +1,617 @@
+[
+    {
+        "id": "8f423b2eda4ee3e5",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Adrienne office window sensor ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "132",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 470,
+        "y": 2700,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "5b77a88c196ee318",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Boys room window sensor ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "484",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 490,
+        "y": 2740,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "9844797e46c19d92",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Family room window iris",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "568",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 490,
+        "y": 2780,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "c418a725f37a9e62",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Laundry Window Contact ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "570",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 490,
+        "y": 2820,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "ef687a4734fdc595",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Loft window sensor",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "129",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 510,
+        "y": 2860,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "0e8f0f9de7f66ed5",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Master bath window contact ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "572",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 480,
+        "y": 2900,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "f89e2729d70161ab",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Master bed window contact ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "571",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 480,
+        "y": 2940,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "97c7ef0e47d0385d",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Office window ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "569",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 520,
+        "y": 2980,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "bcf27997f2de201b",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Kitchen sink contact",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "413",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 500,
+        "y": 3020,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "36d34c1251c5859d",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Guest bed window contact",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "1747",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 480,
+        "y": 3060,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "8de1084360f06dd5",
+        "type": "function",
+        "z": "1d0e8c5d0e26f736",
+        "name": "Save Globals",
+        "func": "const a = global.get('WindowBatteryList');\nconst b = (a === undefined) ? {} : a;\n\nconst disp = msg.payload.displayName ? msg.payload.displayName : msg.topic;\nconst list = {\n  [disp]: parseInt(new Date().getTime())\n};\nconst updatedlist = {\n  ...b,\n  ...list\n};\nglobal.set('WindowBatteryList', updatedlist);\nmsg.payload = updatedlist;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 750,
+        "y": 2900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8663f8f91df5e246",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Adrienne office window sensor ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "132",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1330,
+        "y": 2580,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "aefe42e9a65fa0fc",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Boys room window sensor ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "484",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1350,
+        "y": 2620,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "46188094cde1a242",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Family room window iris",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "568",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1350,
+        "y": 2660,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "8a865129b102f2b1",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Laundry Window Contact ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "570",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1350,
+        "y": 2700,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "56e1dfb3ce80018c",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Loft window sensor",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "129",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1370,
+        "y": 2740,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "4befcafc01368a10",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Master bath window contact ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "572",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1340,
+        "y": 2780,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "9912ebed13c8f86a",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Master bed window contact ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "571",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1340,
+        "y": 2820,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "19f82e7b2455023f",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Office window ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "569",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1380,
+        "y": 2860,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "c4cbf67d2c50a4a4",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Kitchen sink contact",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "413",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1360,
+        "y": 2900,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "c0dfa0d2a5689765",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Guest bed window contact",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "1747",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1340,
+        "y": 2940,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "39df40d639c1dd35",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Bike Room Window",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "1723",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1370,
+        "y": 2980,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "940702e8f9afd6a3",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Basement Family Window ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "1774",
+        "attribute": "",
+        "sendEvent": false,
+        "x": 1350,
+        "y": 3020,
+        "wires": [
+            [
+                "182d7bcce7db1833"
+            ]
+        ]
+    },
+    {
+        "id": "182d7bcce7db1833",
+        "type": "function",
+        "z": "1d0e8c5d0e26f736",
+        "name": "Save Globals",
+        "func": "var a = global.get('WindowBatteryList');\nvar b = (a === undefined) ? {} : a;\nvar disp = msg.topic;\nif (!b.hasOwnProperty(disp)) {\n    b[disp] = 0;\n}\nglobal.set(\"WindowBatteryList\", b);\nmsg.payload = b;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1610,
+        "y": 2780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "22df8b6b23dcea93",
+        "type": "inject",
+        "z": "1d0e8c5d0e26f736",
+        "name": "Initialize",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 960,
+        "y": 2760,
+        "wires": [
+            [
+                "8663f8f91df5e246",
+                "aefe42e9a65fa0fc",
+                "46188094cde1a242",
+                "8a865129b102f2b1",
+                "56e1dfb3ce80018c",
+                "4befcafc01368a10",
+                "9912ebed13c8f86a",
+                "19f82e7b2455023f",
+                "c4cbf67d2c50a4a4",
+                "c0dfa0d2a5689765",
+                "39df40d639c1dd35",
+                "940702e8f9afd6a3"
+            ]
+        ]
+    },
+    {
+        "id": "4bd54d69b3b1544a",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Bike Room Window",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "1723",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 510,
+        "y": 3100,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "ea921ba23e8fb8d4",
+        "type": "hubitat device",
+        "z": "1d0e8c5d0e26f736",
+        "deviceLabel": "Basement Family Window ",
+        "name": "",
+        "server": "337d383ca70ad576",
+        "deviceId": "1774",
+        "attribute": "",
+        "sendEvent": true,
+        "x": 490,
+        "y": 3140,
+        "wires": [
+            [
+                "8de1084360f06dd5"
+            ]
+        ]
+    },
+    {
+        "id": "2ec399536079a515",
+        "type": "inject",
+        "z": "1d0e8c5d0e26f736",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 10 * * 6",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 3300,
+        "wires": [
+            [
+                "b72ebe08f6fcf3c2"
+            ]
+        ]
+    },
+    {
+        "id": "b72ebe08f6fcf3c2",
+        "type": "function",
+        "z": "1d0e8c5d0e26f736",
+        "name": "Check No response windows",
+        "func": "var a = global.get(\"WindowBatteryList\");\nvar time = parseInt(new Date().getTime());\nlet norefresh = [];\nlet timevalue = [];\n\nfor (const key in a) {\n  if ((time - a[key]) / (3600000) > 24) {\n    norefresh.push(key);\n    timevalue.push(a[key]);\n  }\n}\n\nconst resulttxt = norefresh.join(', ');\nconst count = norefresh.length;\nconst isAre = count === 1 ? 'is' : 'are';\nconst output = count > 0\n  ? `There ${isAre} ${count} sensor${count === 1 ? '' : 's'} that haven't responded in a day. They are ${resulttxt}.`\n  : 'All window are sensors responding.';\n\nmsg.count = count;\nmsg.payload = output;\nmsg.time = timevalue;\nmsg.device = \"pixel5\";\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 3240,
+        "wires": [
+            [
+                "569b1546ed71b5f0"
+            ]
+        ]
+    },
+    {
+        "id": "569b1546ed71b5f0",
+        "type": "switch",
+        "z": "1d0e8c5d0e26f736",
+        "name": ">0 == 0",
+        "property": "count",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 740,
+        "y": 3220,
+        "wires": [
+            [
+                "7d6213cc90b6ab3c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "7d6213cc90b6ab3c",
+        "type": "pushover api",
+        "z": "1d0e8c5d0e26f736",
+        "keys": "a3903de6e20b03dc",
+        "title": "Water Sensors Not Responding",
+        "name": "",
+        "x": 960,
+        "y": 3200,
+        "wires": []
+    },
+    {
+        "id": "337d383ca70ad576",
+        "type": "hubitat config",
+        "name": "Hubitat",
+        "usetls": false,
+        "host": "192.168.10.77",
+        "port": "80",
+        "appId": "1246",
+        "nodeRedServer": "http://192.168.10.92:1880",
+        "webhookPath": "/hubitat/webhook",
+        "autoRefresh": true,
+        "useWebsocket": false,
+        "colorEnabled": false,
+        "color": "#ace043",
+        "credentials": {}
+    },
+    {
+        "id": "a3903de6e20b03dc",
+        "type": "pushover-keys",
+        "name": ""
+    }
+]
