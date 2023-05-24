@@ -1,6 +1,6 @@
-# Projects Examples
+# Project Examples
 
-## NodeRED
+## Node-RED
 
 1. **Schedule battery report on multiple devices** 
    ![Battery Report Check](NodeRED/Battery%20Check.png)
